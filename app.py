@@ -13,166 +13,184 @@ def hello_world(name=None):
     global parsed_domains
     parsed_domains = getRawData()
 
-    domain_list = ["",
-                   "cryptography",
-                   "databases",
-                   "json",
-                   "logging",
-                   "mocking",
-                   "object-relational mapping",
-                   "security",
-                   "testing",
-                   "utilities",
-                   "xml"]
+    domain_list = [""]
+    domain_dict = {"": []}
+    for domain in parsed_domains:
+        print(domain.name)
+        domain_list.append(domain.name)
+        domain_dict[domain.name] = []
+        for library in domain.libraries:
+            print(library.name)
+            domain_dict[domain.name].append(library.name)
 
-    domain_dict = {
-        "": [],
-        "cryptography": ["bouncycastle","commons crypto","conceal","chimera","spongycastle","keyczar","conscrypt"],
-        "databases": ["h2","derby"],
-        "json": ["gson","json.simple"],
-        "logging": ["slf4j","log4j2","logback","commons logging","tinylog","blitz4j","minlog"],
-        "mocking": ["mockito","easymock","powermock","jmock"],
-        "object-relational mapping": ["hibernate orm","mybatis3","ormlite"],
-        "security": ["shiro","spring security"],
-        "testing": ["junit4","testng"],
-        "utilities": ["guava","commons lang"],
-        "xml": ["xerces2-j","dom4j","jdom"]
-    }
-
-    readable_metrics = {
-        "popularity": "Popularity",
-        "release-frequency": "Release Frequency",
-        "last-modification-date": "Last Modification Date",
-        "performance": "Performance",
-        "security": "Security",
-        "issue-response-time": "Issue Response Time",
-        "issue-closing-time": "Issue Closing Time",
-        "backwards-compatibility": "Backwards Compatibility",
-        "last-discussed-on-so": "Last Discussed On Stack Overflow"
-    }
+    domain_list.sort()
 
     chart_types = {
-        "popularity" : [
-            {
-                "key":"bar_raw",
-                "readable":"Bar Chart"
-            }, {
-                "key":"pie",
-                "readable":"Pie Chart"
-            }, {
-                "key":"gauge",
-                "readable":"Solid Gauge"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "release-frequency" : [
-            {
-                "key":"bar_avg",
-                "readable":"Bar Chart"
-            }, {
-                "key":"box",
-                "readable":"Box Plot"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "last-modification-date" : [
-            {
-                "key":"bar_days",
-                "readable":"Bar Chart"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "performance" : [
-            {
-                "key":"gauge",
-                "readable":"Solid Gauge"
-            }, {
-                "key":"box",
-                "readable":"Box Plot"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "security" : [
-            {
-                "key":"gauge",
-                "readable":"Solid Gauge"
-            }, {
-                "key":"box",
-                "readable":"Box Plot"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "issue-response-time" : [
-            {
-                "key":"xy",
-                "readable":"Scatter Plot"
-            }, {
-                "key":"box",
-                "readable":"Box Plot"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "issue-closing-time" : [
-            {
-                "key":"xy",
-                "readable":"Scatter Plot"
-            }, {
-                "key":"box",
-                "readable":"Box Plot"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "backwards-compatibility" : [
-            {
-                "key":"bar",
-                "readable":"Bar Chart"
-            }, {
-                "key":"line",
-                "readable":"Line Graph"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ],
-        "last-discussed-on-so" : [
-            {
-                "key":"box",
-                "readable":"Box Plot"
-            }, {
-                "key":"scatter",
-                "readable":"Scatter Plot"
-            }, {
-                "key":"raw_data",
-                "readable":"Raw Data"
-            }
-        ]
+        "popularity" : {
+            "readable": "Popularity",
+            "chart_types": [
+                {
+                    "key":"bar_raw",
+                    "readable":"Bar Chart",
+                    "isDefault":True
+                }, {
+                    "key":"pie",
+                    "readable":"Pie Chart",
+                    "isDefault":False
+                }, {
+                    "key":"gauge",
+                    "readable":"Solid Gauge",
+                    "isDefault":False
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "release-frequency" : {
+            "readable": "Release Frequency",
+            "chart_types": [
+                {
+                    "key":"bar_avg",
+                    "readable":"Bar Chart",
+                    "isDefault":True
+                }, {
+                    "key":"box",
+                    "readable":"Box Plot",
+                    "isDefault":False
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "last-modification-date" : {
+            "readable": "Last Modification Date",
+            "chart_types": [
+                {
+                    "key":"bar_days",
+                    "readable":"Bar Chart",
+                    "isDefault":True
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "performance" : {
+            "readable": "Performance",
+            "chart_types": [
+                {
+                    "key":"gauge",
+                    "readable":"Solid Gauge",
+                    "isDefault":False
+                }, {
+                    "key":"box",
+                    "readable":"Box Plot",
+                    "isDefault":True
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "security" : {
+            "readable": "Security",
+            "chart_types": [
+                {
+                    "key":"gauge",
+                    "readable":"Solid Gauge",
+                    "isDefault":False
+                }, {
+                    "key":"box",
+                    "readable":"Box Plot",
+                    "isDefault":True
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "issue-response-time" : {
+            "readable": "Issue Response Time",
+            "chart_types": [
+                {
+                    "key":"xy",
+                    "readable":"Scatter Plot",
+                    "isDefault":True
+                }, {
+                    "key":"box",
+                    "readable":"Box Plot",
+                    "isDefault":False
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "issue-closing-time" : {
+            "readable": "Issue Closing Time",
+            "chart_types": [
+                {
+                    "key":"xy",
+                    "readable":"Scatter Plot",
+                    "isDefault":True
+                }, {
+                    "key":"box",
+                    "readable":"Box Plot",
+                    "isDefault":False
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "backwards-compatibility" : {
+            "readable": "Backwards Compatibility",
+            "chart_types": [
+                {
+                    "key":"bar",
+                    "readable":"Bar Chart",
+                    "isDefault":True
+                }, {
+                    "key":"line",
+                    "readable":"Line Graph",
+                    "isDefault":False
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        },
+        "last-discussed-on-so" : {
+            "readable": "Last Discussed on Stack Overflow",
+            "chart_types": [
+                {
+                    "key":"box",
+                    "readable":"Box Plot",
+                    "isDefault":True
+                }, {
+                    "key":"scatter",
+                    "readable":"Scatter Plot",
+                    "isDefault":False
+                }, {
+                    "key":"raw_data",
+                    "readable":"Raw Data",
+                    "isDefault":False
+                }
+            ]
+        }
     }
 
-    default_dict={'popularity': 'bar_raw',
-                    'release-frequency':'bar_avg',
-                    'last-modification-date':'bar_days',
-                    'performance':'box',
-                    'security':'box',
-                    'issue-response-time':'xy',
-                    'issue-closing-time':'xy',
-                    'backwards-compatibility':'bar',
-                    'last-discussed-on-so':'box'}
-
-    return render_template('index.html',domain_list=domain_list, domain_dict=domain_dict, chart_types=chart_types, default_dict=default_dict, readable_metrics=readable_metrics)
+    return render_template('index.html',domain_list=domain_list, domain_dict=domain_dict, chart_types=chart_types)
 
 # Handles generating a list of charts
 @app.route('/generate_chart', methods=['POST'])

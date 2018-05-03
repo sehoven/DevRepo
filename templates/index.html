@@ -235,9 +235,11 @@
                 "chart_type": $("#chart4")["0"].chart_type
               });
             } else {
+              var chart_types = {{ chart_types|tojson }}
+              var chart_type = _.find(chart_types[selected_metrics[i].value].chart_types, function(chart) {if(chart) return chart.isDefault})
               data.metrics.push({
                 "metric": selected_metrics[i].value,
-                "chart_type": {{ default_dict|tojson }}[selected_metrics[i].value]
+                "chart_type": chart_type.key
               });
             }
           }
@@ -310,12 +312,12 @@
          $("#empty-screen").css({"display":"none"});
          $("#visualizations").css({"display":"inline-block"});
          if(_.isEqual(data.type, "chart")) {
-           $("#chart" + index + "-text")["0"].textContent = {{ readable_metrics|tojson }}[data.metric];
+           $("#chart" + index + "-text")["0"].textContent = {{ chart_types|tojson }}[data.metric].readable;
            $("#chart" + index + " > embed").prop("src", data.data);
            $("#chart" + index + " > embed").css({"display": "inline-block"});
            $("#chart" + index + " > div").css({"display": "none"});
          } else if (_.isEqual(data.type, "raw_data")) {
-           $("#chart" + index + "-text")["0"].textContent = {{ readable_metrics|tojson }}[data.metric];
+           $("#chart" + index + "-text")["0"].textContent = {{ chart_types|tojson }}[data.metric].readable;
            $("#chart" + index + " > div").css({"display": "inline-block"});
            $("#chart" + index + " > embed").css({"display": "none"});
            $("#chart" + index + " > div").empty()
@@ -341,12 +343,12 @@
           $("#visualizations").css({"display":"inline-block"});
           for(var i = 1; i < data.length + 1; ++i) {
             if(_.isEqual(data[i - 1].type, "chart")) {
-              $("#chart" + i + "-text")["0"].textContent = {{ readable_metrics|tojson }}[data[i - 1].metric];
+              $("#chart" + i + "-text")["0"].textContent = {{ chart_types|tojson }}[data[i - 1].metric].readable;
               $("#chart" + i + " > embed").prop("src", data[i - 1].data);
               $("#chart" + i + " > embed").css({"display": "inline-block"});
               $("#chart" + i + " > div").css({"display": "none"});
             } else if (_.isEqual(data[i - 1].type, "raw_data")) {
-              $("#chart" + i + "-text")["0"].textContent = {{ readable_metrics|tojson }}[data[i - 1].metric];
+              $("#chart" + i + "-text")["0"].textContent = {{ chart_types|tojson }}[data[i - 1].metric].readable;
               $("#chart" + i + " > div").css({"display": "inline-block"});
               $("#chart" + i + " > embed").css({"display": "none"});
               $("#chart" + index + " > div").empty()
@@ -513,7 +515,7 @@
       }
 
       var showChartTypes = function(i, metric) {
-        var chart_types = {{ chart_types|tojson }}[$("#chart" + i)["0"].metric]
+        var chart_types = {{ chart_types|tojson }}[$("#chart" + i)["0"].metric].chart_types
         var data = getData()
 
         data.read_only = true
@@ -744,7 +746,7 @@
         }
         card_string += "</span><br><span><b>Metrics:</b><ul>"
         for(var j = 0; j < data.metrics.length; ++j) {
-          var chart_type = _.find({{ chart_types|tojson }}[data.metrics[j].metric], function(metric) {return _.isEqual(metric.key, data.metrics[j].chart_type)})
+          var chart_type = _.find({{ chart_types|tojson }}[data.metrics[j].metric].chart_types, function(metric) {return _.isEqual(metric.key, data.metrics[j].chart_type)})
           if(chart_type) {
             chart_type = chart_type.readable
           } else {
